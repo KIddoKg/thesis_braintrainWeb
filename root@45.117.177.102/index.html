@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+      If you are serving your web app in a path other than the root, change the
+      href value below to reflect the base path you are serving from.
+
+      The path provided below has to start and end with a slash "/" in order for
+      it to work correctly.
+
+      For more details:
+      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+      This is a placeholder for base href that will be replaced by the value of
+      the `--base-href` argument provided to `flutter build`.
+    -->
+    <base href="/">
+
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="A new Flutter project.">
+
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="BME-IT Brain Train">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png"/>
+
+    <title>BME-IT Brain Train</title>
+    <link rel="manifest" href="manifest.json">
+
+    <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = "1184771103";
+
+
+    </script>
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer></script>
+</head>
+<style>
+      .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Adjust this value to control the container's height */
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0; /* Adjust the margin between rows */
+        }
+
+        .img_logo, .indicator {
+            margin: 0 10px; /* Adjust the margin around images */
+            width:60%;
+        }
+
+        #loading_progress {
+            width: 30%;
+            height: 5px;
+            background-color: #ddd;
+            z-index: 1;
+        }
+
+        #loading_bar {
+            width: 0;
+            height: 100%;
+            background-color: #025ca6;
+        }
+         #loading_text {
+            font-size: 18px;
+            margin-top: 10px;
+            display: none;
+            color: #025ca6;
+        }
+
+
+</style>
+<body>
+
+<div class="container">
+    <div class="row">
+        <img src="./assets/splash_icon.png" class="img_logo" alt="Logo">
+    </div>
+    <div id="loading_progress">
+        <div id="loading_bar"></div>
+    </div>
+    <div id="loading_text">Đang di chuyển tới Brain Train Web ....</div>
+</div>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBybXVFqAgaUaVQFAzmMURY2Vr8chUmDPw",
+      authDomain: "dmclmobileapp.firebaseapp.com",
+      databaseURL: "https://dmclmobileapp.firebaseio.com",
+      projectId: "dmclmobileapp",
+      storageBucket: "dmclmobileapp.appspot.com",
+      messagingSenderId: "338654189304",
+      appId: "1:338654189304:web:dd65b27e56ebe279c9cd0d",
+      measurementId: "G-PP0X7RHWHX"
+    };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+<script>
+        window.addEventListener('load', function() {
+            const loadingBar = document.getElementById("loading_bar");
+            const loadingText = document.getElementById("loading_text");
+            const loadingProgress = document.getElementById("loading_progress");
+
+            let progress = 0;
+            const interval = setInterval(function() {
+                progress += 5;
+                loadingBar.style.width = progress + "%";
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    loadingProgress.style.display = "none";
+                    loadingText.style.display = "block";
+
+                    // Download main.dart.js
+                    _flutter.loader.loadEntrypoint({
+                        serviceWorker: {
+                            serviceWorkerVersion: serviceWorkerVersion,
+                        },
+                        onEntrypointLoaded: function(engineInitializer) {
+                            engineInitializer.initializeEngine().then(function(appRunner) {
+                                appRunner.runApp();
+                            });
+                        }
+                    });
+                }
+            }, 50); // Adjust the interval to control the speed of progress
+
+            window.addEventListener("beforeunload", function() {
+                if (progress < 100) {
+                    // Prevent leaving the page if loading is not complete
+                    return "Wait a moment. The page is still loading.";
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
