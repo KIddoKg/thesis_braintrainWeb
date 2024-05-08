@@ -23,7 +23,8 @@ to check it work clearly.
 
 - Import the source code by using vsCode or AndroidStudio (IntelliJ).
 - Open the file pubspec.yaml and click the "pub get" on right above:
-  <img width="1662" alt="Screenshot 2024-04-18 at 12 24 53" src="https://github.com/KIddoKg/brain_train_app/assets/73632319/242e924c-80f1-4346-9fb5-acd20bb4511b">
+  <img width="1662" alt="324754733-242e924c-80f1-4346-9fb5-acd20bb4511b" src="https://github.com/KIddoKg/thesis_braintrainWeb/assets/73632319/252daac6-03f7-4acf-b24b-7a25123e0da5">
+
   Or you can open the terminal on this project location and run:
 ```shell
 flutter pub get
